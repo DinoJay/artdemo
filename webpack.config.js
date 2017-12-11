@@ -126,12 +126,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/template.html'
     }),
-    new webpack.EnvironmentPlugin({
-      DiscogsAccessToken:
-        'pk.eyJ1Ijoiam1hdXNoYWciLCJhIjoiY2l2ODkyaDl1MDAwdTJvbnlmbHdvODM0MiJ9.rLkNA-rO4xq0O4_xIeqXVg',
-      InstagramAccessToken:
-        '3168846451.1677ed0.73c8db6fb18f44bc9e7be911f549fa5c'
-    })
     // new webpack.optimize.ModuleConcatenationPlugin()
     // new webpack.ProvidePlugin({
     // $: 'jquery',

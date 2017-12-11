@@ -1,32 +1,46 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 // import $ from 'jquery';
 import cxx from './app.scss';
 
-import Home from './Home';
-import Collage from './Collage';
-import Bookmarks from './Bookmarks';
-// import LongIslandGirls from './components/LongIslandGirls';
-import RecordCollection from './RecordCollection';
-import Projects from './Projects';
-import CV from './CV';
-// import Nav from './components/Nav';
-// import cxx from './components/cxx/nav.scss';
-// import './global/annotation.scss';
-// import './global/index.scss';
+import { ScrollView, ScrollElement } from './ScrollView';
 
-const selectElement = path => {
-  if (path === '/') return Home;
-  if (path === '/CV') return CV;
-  if (path === '/Collage') return Collage;
-  if (path === '/Bookmarks') return Bookmarks;
-  if (path === '/RecordCollection') return RecordCollection;
-  if (path === '/Projects') return Projects;
-
-  return Home;
-};
+// <ScrollView ref={scroller => (this._scroller = scroller)}>
+//   <div
+//     className={cx.wrapper}
+//     style={{
+//       gridTemplateColumns: `repeat(${children.length *
+//         activeSpan}, ${columnWidth}px)`
+//     }}
+//   >
+//     {React.Children.map(children, (comp, i) => {
+//       const col = getCol(i, children.length, span); // Math.floor(i / 2) + 1;
+//       return (
+//         <VisibilitySensor
+//           offset={{
+//             bottom: 0,
+//             top: 0
+//           }}
+//         >
+//           {({ isVisible }) =>
+//             <ScrollElement name={i}>
+//               <Item
+//                 {...this.props}
+//                 selected={selected === comp.props.id}
+//                 defaultCol={col}
+//                 visible={isVisible}
+//                 index={i}
+//               >
+//                 {comp}
+//               </Item>
+//             </ScrollElement>}
+//         </VisibilitySensor>
+//       );
+//     })}
+//   </div>
+// </ScrollView>
 
 class App extends React.Component {
   static propTypes = {
@@ -35,166 +49,475 @@ class App extends React.Component {
   static defaultProps = {
     path: '/'
   };
-
-  constructor(props) {
-    super(props);
-    const { path } = props;
-    this.clickHandler = this.clickHandler.bind(this);
-
-    let width;
-    let height;
-    if (window.innerWidth > 2000) {
-      width = 1000;
-      height = 770;
-    } else {
-      width = 860;
-      height = 640;
-    }
-
-    // width = 1200;
-    // height = 800;
-    this.state = {
-      path,
-      oldPath: path,
-      back: false,
-      width,
-      height
-    };
-  }
-
-  componentDidMount() {
-    // window.onLoad = function() {
-    // const width = 800;
-    // const height = 600;
-    // const fontSize = null;
-    // const pad = 20; // this.props;
-    // // console.log('window', window.innerWidth);
-    // const main = ReactDOM.findDOMNode(this.main);
-    // const height = ReactDOM.findDOMNode(this.cont).clientHeight;
-    // const width = ReactDOM.findDOMNode(this.cont).clientWidth;
-    // this.setState({ height, width });
-    // };
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      path: newProps.path,
-      oldPath: this.props.path,
-      back: !this.state.back
-    });
-  }
-
-  clickHandler(event) {
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
-    const path = event.currentTarget.getAttribute('href');
-    if (this.state.path !== path) {
-      const currentPath = event.currentTarget.getAttribute('href');
-      window.history.pushState(path, path, `#${currentPath}`);
-      this.setState(oldState => ({
-        path,
-        oldPath: oldState.path,
-        back: !oldState.back
-      }));
-    }
-  }
-
   render() {
-    const { width, height } = this.state;
-
-    const pad = 20;
-    // const transformOrigin = height / 2;
-    // const fontSize = 20;
-
-    const { path, oldPath, back } = this.state;
-    const activeElement = selectElement(path);
-    const passiveElement = selectElement(oldPath);
-    const compDim = { width: width - pad * 2, height: height - pad * 2 };
-    const marginTop = 20;
-    // const pad = this.props.pad;
     return (
-      <div className="container" style={{ marginTop: `${marginTop}px` }}>
-        <div className="row">
-          <div className={'col-md-3 col-xs-12'}>
-            <div className={`${cxx.nav} ${cxx.tornBorder}`}>
-              <div className={cxx.title}>
-                <span>Jan Maushagen</span>&nbsp;/&nbsp; <br />{' '}
-                {this.state.path.substring(1)}
-              </div>
-              <div className={cxx.list}>
-                <ul>
-                  <li>
-                    <a onClick={this.clickHandler} href="/">
-                      Home
-                    </a>
+      <div className="container">
+        <header className="header clearfix ">
+          <h3 className="text-muted">Project name</h3>
+        </header>
+
+        <ScrollView ref={scroller => (this._scroller = scroller)}>
+          <main role="main">
+            <div className="jumbotron border-3">
+              <h1 className="display-3">Jumbotron heading</h1>
+              <p className="lead">
+                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+                Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                condimentum nibh, ut fermentum massa justo sit amet risus.
+              </p>
+              <p>
+                <ul className="nav nav-pills float-right child-borders">
+                  <li className="nav-items">
+                    <button
+                      className="nav-link active"
+                      href="#"
+                      onClick={() => this._scroller.scrollTo(1)}
+                    >
+                      Chapter1 <span className="sr-only">(current)</span>
+                    </button>
                   </li>
-                  <li>
-                    <a onClick={this.clickHandler} href="/CV">
-                      CV <small>(my so called adult life)</small>
-                    </a>
+                  <li className="nav-item">
+                    <button
+                      onClick={() => this._scroller.scrollTo(2)}
+                      className="nav-link"
+                      href="#"
+                    >
+                      Chapter2
+                    </button>
                   </li>
-                  <li>
-                    <a onClick={this.clickHandler} href="/Collage">
-                      Collage <small>(me and my friends )</small>
-                    </a>
+                  <li className="nav-item">
+                    <button
+                      className="nav-link"
+                      href="#"
+                      onClick={() => this._scroller.scrollTo(3)}
+                    >
+                      Chapter3
+                    </button>
                   </li>
-                  <li>
-                    <a onClick={this.clickHandler} href="/Projects">
-                      Projects <small>{"(stuff I'm proud of)"}</small>
-                    </a>
-                  </li>
-                  <li>
-                    <a onClick={this.clickHandler} href="/RecordCollection">
-                      My record collection
-                    </a>
-                  </li>
-                  <li>
-                    <a onClick={this.clickHandler} href="/Bookmarks">
-                      My Bookmarks
-                    </a>
+                  <li className="nav-item">
+                    <button
+                      className="nav-link"
+                      href="#"
+                      onClick={() => this._scroller.scrollTo(4)}
+                    >
+                      Chapter4
+                    </button>
                   </li>
                 </ul>
+              </p>
+            </div>
+
+            <div className="row ">
+              <div className="col-lg-12">
+                <ScrollElement name={1}>
+                  <section>
+                    <h2>Chapter1: Introduction</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua. At vero eos et
+                      accusam et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet. Duis
+                      autem vel eum iriure dolor in hendrerit in vulputate velit
+                      esse molestie consequat, vel illum dolore eu feugiat nulla
+                      facilisis at vero eros et accumsan et iusto odio dignissim
+                      qui blandit praesent luptatum zzril delenit augue duis
+                      dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis at
+                      vero eros et accumsan et iusto odio dignissim qui blandit
+                      praesent luptatum zzril delenit augue duis dolore te
+                      feugait nulla facilisi. Nam liber tempor cum soluta nobis
+                      eleifend option congue nihil imperdiet doming id quod
+                      mazim placerat facer possim assum. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis. At
+                      vero eos et accusam et justo duo dolores et ea rebum. Stet
+                      clita kasd gubergren, no sea takimata sanctus est Lorem
+                      ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                      consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                      invidunt ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, At accusam aliquyam
+                      diam diam dolore dolores duo eirmod eos erat, et nonumy
+                      sed tempor et et invidunt justo labore Stet clita ea et
+                      gubergren, kasd magna no rebum. sanctus sea sed takimata
+                      ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem
+                      ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                      diam nonumy eirmod tempor invidunt ut laboreet dolore
+                      magna aliquyam erat. Consetetur sadipscing elitr, sed diam
+                      nonumy eirmod tempor invidunt ut labore et dolore magna
+                      aliquyam erat, sed diam voluptua. At vero eos et accusam
+                      et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                  </section>
+                </ScrollElement>
+                <ScrollElement name={2}>
+                  <section>
+                    <h2>Chapter2: Main</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua. At vero eos et
+                      accusam et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet. Duis
+                      autem vel eum iriure dolor in hendrerit in vulputate velit
+                      esse molestie consequat, vel illum dolore eu feugiat nulla
+                      facilisis at vero eros et accumsan et iusto odio dignissim
+                      qui blandit praesent luptatum zzril delenit augue duis
+                      dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis at
+                      vero eros et accumsan et iusto odio dignissim qui blandit
+                      praesent luptatum zzril delenit augue duis dolore te
+                      feugait nulla facilisi. Nam liber tempor cum soluta nobis
+                      eleifend option congue nihil imperdiet doming id quod
+                      mazim placerat facer possim assum. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis. At
+                      vero eos et accusam et justo duo dolores et ea rebum. Stet
+                      clita kasd gubergren, no sea takimata sanctus est Lorem
+                      ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                      consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                      invidunt ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, At accusam aliquyam
+                      diam diam dolore dolores duo eirmod eos erat, et nonumy
+                      sed tempor et et invidunt justo labore Stet clita ea et
+                      gubergren, kasd magna no rebum. sanctus sea sed takimata
+                      ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem
+                      ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                      diam nonumy eirmod tempor invidunt ut laboreet dolore
+                      magna aliquyam erat. Consetetur sadipscing elitr, sed diam
+                      nonumy eirmod tempor invidunt ut labore et dolore magna
+                      aliquyam erat, sed diam voluptua. At vero eos et accusam
+                      et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                  </section>
+                </ScrollElement>
+                <ScrollElement name={3}>
+                  <section>
+                    <h2>Chapter 3:</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua. At vero eos et
+                      accusam et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet. Duis
+                      autem vel eum iriure dolor in hendrerit in vulputate velit
+                      esse molestie consequat, vel illum dolore eu feugiat nulla
+                      facilisis at vero eros et accumsan et iusto odio dignissim
+                      qui blandit praesent luptatum zzril delenit augue duis
+                      dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis at
+                      vero eros et accumsan et iusto odio dignissim qui blandit
+                      praesent luptatum zzril delenit augue duis dolore te
+                      feugait nulla facilisi. Nam liber tempor cum soluta nobis
+                      eleifend option congue nihil imperdiet doming id quod
+                      mazim placerat facer possim assum. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis. At
+                      vero eos et accusam et justo duo dolores et ea rebum. Stet
+                      clita kasd gubergren, no sea takimata sanctus est Lorem
+                      ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                      consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                      invidunt ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, At accusam aliquyam
+                      diam diam dolore dolores duo eirmod eos erat, et nonumy
+                      sed tempor et et invidunt justo labore Stet clita ea et
+                      gubergren, kasd magna no rebum. sanctus sea sed takimata
+                      ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem
+                      ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                      diam nonumy eirmod tempor invidunt ut laboreet dolore
+                      magna aliquyam erat. Consetetur sadipscing elitr, sed diam
+                      nonumy eirmod tempor invidunt ut labore et dolore magna
+                      aliquyam erat, sed diam voluptua. At vero eos et accusam
+                      et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                  </section>
+                </ScrollElement>
+                <ScrollElement name={4}>
+                  <section>
+                    <h2>Subheading</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua. At vero eos et
+                      accusam et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet. Duis
+                      autem vel eum iriure dolor in hendrerit in vulputate velit
+                      esse molestie consequat, vel illum dolore eu feugiat nulla
+                      facilisis at vero eros et accumsan et iusto odio dignissim
+                      qui blandit praesent luptatum zzril delenit augue duis
+                      dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis at
+                      vero eros et accumsan et iusto odio dignissim qui blandit
+                      praesent luptatum zzril delenit augue duis dolore te
+                      feugait nulla facilisi. Nam liber tempor cum soluta nobis
+                      eleifend option congue nihil imperdiet doming id quod
+                      mazim placerat facer possim assum. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis. At
+                      vero eos et accusam et justo duo dolores et ea rebum. Stet
+                      clita kasd gubergren, no sea takimata sanctus est Lorem
+                      ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                      consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                      invidunt ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, At accusam aliquyam
+                      diam diam dolore dolores duo eirmod eos erat, et nonumy
+                      sed tempor et et invidunt justo labore Stet clita ea et
+                      gubergren, kasd magna no rebum. sanctus sea sed takimata
+                      ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem
+                      ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                      diam nonumy eirmod tempor invidunt ut laboreet dolore
+                      magna aliquyam erat. Consetetur sadipscing elitr, sed diam
+                      nonumy eirmod tempor invidunt ut labore et dolore magna
+                      aliquyam erat, sed diam voluptua. At vero eos et accusam
+                      et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                  </section>
+                </ScrollElement>
+                <ScrollElement name={3}>
+                  <section>
+                    <h2>Chapter 3:</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua. At vero eos et
+                      accusam et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet. Duis
+                      autem vel eum iriure dolor in hendrerit in vulputate velit
+                      esse molestie consequat, vel illum dolore eu feugiat nulla
+                      facilisis at vero eros et accumsan et iusto odio dignissim
+                      qui blandit praesent luptatum zzril delenit augue duis
+                      dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis at
+                      vero eros et accumsan et iusto odio dignissim qui blandit
+                      praesent luptatum zzril delenit augue duis dolore te
+                      feugait nulla facilisi. Nam liber tempor cum soluta nobis
+                      eleifend option congue nihil imperdiet doming id quod
+                      mazim placerat facer possim assum. Lorem ipsum dolor sit
+                      amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                      euismod tincidunt ut laoreet dolore magna aliquam erat
+                      volutpat. Ut wisi enim ad minim veniam, quis nostrud
+                      exerci tation ullamcorper suscipit lobortis nisl ut
+                      aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                      dolor in hendrerit in vulputate velit esse molestie
+                      consequat, vel illum dolore eu feugiat nulla facilisis. At
+                      vero eos et accusam et justo duo dolores et ea rebum. Stet
+                      clita kasd gubergren, no sea takimata sanctus est Lorem
+                      ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                      consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                      invidunt ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, At accusam aliquyam
+                      diam diam dolore dolores duo eirmod eos erat, et nonumy
+                      sed tempor et et invidunt justo labore Stet clita ea et
+                      gubergren, kasd magna no rebum. sanctus sea sed takimata
+                      ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem
+                      ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                      diam nonumy eirmod tempor invidunt ut laboreet dolore
+                      magna aliquyam erat. Consetetur sadipscing elitr, sed diam
+                      nonumy eirmod tempor invidunt ut labore et dolore magna
+                      aliquyam erat, sed diam voluptua. At vero eos et accusam
+                      et justo duo dolores et ea rebum. Stet clita kasd
+                      gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                      sit amet. Lorem ipsum dolor sit amet, consetetur
+                      sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                      ut labore et dolore magna aliquyam erat, sed diam
+                      voluptua. At vero eos et accusam et justo duo dolores et
+                      ea rebum. Stet clita kasd gubergren, no sea takimata
+                      sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+                      sit amet, consetetur sadipscing elitr, sed diam nonumy
+                      eirmod tempor invidunt ut labore et dolore magna aliquyam
+                      erat, sed diam voluptua. At vero eos et accusam et justo
+                      duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                      takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                  </section>
+                </ScrollElement>
+                <h2>Subheading</h2>
+                <p>
+                  Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                  Cras mattis consectetur purus sit amet fermentum.
+                </p>
+
+                <h2>Subheading</h2>
+                <p>
+                  Maecenas sed diam eget risus varius blandit sit amet non
+                  magna.
+                </p>
               </div>
             </div>
-          </div>
-          <div id={cxx.right} className={'col-md-9 col-xs-12'}>
-            <div className={`${cxx.flipContainer}`}>
-              <div
-                className={cxx.flipper}
-                style={{
-                  transformOrigin: `100% ${compDim.height / 2 + marginTop}px`,
-                  transform: back ? 'rotateX(180deg)' : null,
-                  zIndex: back ? 3 : null
-                }}
-              >
-                <div
-                  className={cxx.front}
-                  style={{ width: `${width}px`, height: `${height}px` }}
-                >
-                  <div>
-                    {!back ? (
-                      React.createElement(activeElement, compDim)
-                    ) : (
-                      React.createElement(passiveElement, compDim)
-                    )}
-                  </div>
-                </div>
-                <div
-                  className={cxx.back}
-                  style={{ width: `${width}px`, height: `${height}px` }}
-                >
-                  <div className={cxx.passiveElement}>
-                    {back ? (
-                      React.createElement(activeElement, compDim)
-                    ) : (
-                      React.createElement(passiveElement, compDim)
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </main>
+        </ScrollView>
+
+        <footer className="footer">
+          <p>© Company 2017</p>
+        </footer>
       </div>
     );
   }

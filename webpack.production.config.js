@@ -58,13 +58,12 @@ module.exports = {
         drop_debugger: true
       }
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin('[contenthash].css', {
       allChunks: true
     }),
     new HtmlWebpackPlugin({
       template: './src/template.html',
-      title: 'Webpack App'
+      title: 'ArtDemo'
     }),
     new webpack.optimize.DedupePlugin()
   ]

@@ -18,8 +18,9 @@ import 'papercss/src/styles.less';
 
 import 'font-awesome/css/font-awesome.css';
 
-import './styles/global/annotation.scss';
+// import './styles/global/annotation.scss';
 import './styles/global/index.scss';
+
 import Routes from './Routes';
 
 // import Routes from './Routes';
