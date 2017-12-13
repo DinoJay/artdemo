@@ -1,0 +1,74 @@
+// @import "../styles/variables.scss";
+.myJumbo {
+
+  margin-top: 20px;
+  background: #d57c62;
+}
+
+.main {
+  // background: #aedbc6;
+  margin: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  z-index: -1;
+  // padding:
+}
+
+.contBackground {
+  background: #aedbc6;
+}
+
+.nav {
+  padding-top: 0.75em;
+}
+
+
+.myHeader {
+  padding-top: 20px;
+  background: #aedbc6;
+  z-index: 1000;
+  // border-bottom: black solid 1px;
+  // overflow: hidden;
+}
+
+.staticTop {
+  position: relative;
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.path0{
+  fill: #aedbc6;
+  // fill: none;
+}
+
+nav {
+  z-index: 1030;
+}
+
+// .wave:before {
+//   content: "";
+//   display: block;
+//   position: absolute;
+//   border-radius: 100% 50%;
+//   width: 340px;
+//   height: 80px;
+//   background-color: white;
+//   right: -5px;
+//   top: 40px;
+// }
+.wave:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 300px;
+  height: 70px;
+  background-color: #e0efe3;
+  left: 0;
+  top: 27px;
+}

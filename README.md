@@ -4,11 +4,9 @@ Showing off my skills for possible employers
 
 ### What's left todo?
 
-* finish project page
-* fix z-index problems
-* fix layout in Record Collection and load real data
-* ~~CV to pure react~~
-* ~~Integrate PaperCSS~~
+* About Team page
+* sticky header
+* card stack
 
 ### To run
 

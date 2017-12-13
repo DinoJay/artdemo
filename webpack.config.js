@@ -125,7 +125,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './src/template.html'
-    }),
+    })
     // new webpack.optimize.ModuleConcatenationPlugin()
     // new webpack.ProvidePlugin({
     // $: 'jquery',
